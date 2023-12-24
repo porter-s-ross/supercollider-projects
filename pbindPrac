@@ -1,0 +1,50 @@
+
+(
+SynthDef(\first_def,
+	{ arg out=0, freq=440, sustain=0.05;
+		var env;
+		env = EnvGen.kr(Env.perc(0.01, sustain, 0.2),doneAction: Done.freeSelf);
+		Out.ar(out,SinOsc.ar(freq,env))
+}).add;
+)
+
+// run several times for drone chords
+(
+p = Pbind(
+	\degree, Pxrand([-1,-3,-5,-12,-24],inf),
+	\dur, Pgeom(1, 1.5, inf),
+	\amp, Pxrand([0.1,0.2],inf),
+	\legato, Pxrand([0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1],inf)
+).play;
+)
+
+(
+p = Pbind(
+	\note, Pgeom(1, 1.5, inf),
+	\dur, 0.15,
+	\amp, 1
+).play;
+)
+
+
+(
+
+Pbind(
+	\degree, Pseq([0,3,7,12], inf),
+	\dur, Pseq([0.25, 0.5, 0.25],inf),
+	\amp, 0.5
+).play;
+
+Pbind(
+	\degree, Pseq([-3, 5,9], inf),
+	\dur, Pseq([1, 0.5, 0.25, 0.75,1, 0.5],inf),
+	\amp, 1
+).play;
+)
+
+
+100.0.rand.round(0.01).dup(4);
+
+dup(round(rand(100.0), 0.01), 4)
+
+{SinOsc.ar(freq: MouseX.kr(300, 2500), mu=l: MouseY.kr(0, 1))}.play;
